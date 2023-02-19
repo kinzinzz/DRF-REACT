@@ -34,6 +34,7 @@ function Header() {
         });
         window.location.reload();
     };
+
     return (
         <React.Fragment>
             <CssBaseline />
