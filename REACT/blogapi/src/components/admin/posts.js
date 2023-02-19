@@ -61,8 +61,8 @@ const Posts = (props) => {
                             <TableBody>
                                 {posts.map((post) => {
                                     return (
-                                        <TableRow>
-                                            <TableCell component="th" scope="row">
+                                        <TableRow key={post.id}>
+                                            <TableCell component="th" scope="row" >
                                                 {post.id}
                                             </TableCell>
                                             <TableCell align="left">{post.category}</TableCell>

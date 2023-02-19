@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import axiosInstance from '../../axios/login';
+import axiosInstance from '../../axios';
 import { useHistory } from 'react-router-dom';
-import FbLogin from 'react-facebook-login';
-import FacebookLogin from '../../axios/facebookLogin';
 //MaterialUI
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -15,6 +13,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -57,24 +56,19 @@ export default function SignIn() {
         console.log(formData);
 
         axiosInstance
-            .post(`auth/token/`, {
-                grant_type: 'password',
-                username: formData.email,
+            .post(`token/`, {
+                email: formData.email,
                 password: formData.password,
-                client_id: 'uZlHETeBeS3St02u8W2lymlRFM2b2LdcGIsBdIoO',
-                client_secret:
-                    '1ZzMc3Z1VvB9kj6ti5RwEvxINVnn6WwV95higBjrSfAgfChF35fyUxZDZMja4gR9I1CFvA83I127VlfDvGk3jqHSqJADr8gxJXa62sXtoiBzuuTCgwucqX37Cf8p6prP',
             })
             .then((res) => {
-                localStorage.setItem('access_token', res.data.access_token);
-                localStorage.setItem('refresh_token', res.data.refresh_token);
+                localStorage.setItem('access_token', res.data.access);
+                localStorage.setItem('refresh_token', res.data.refresh);
+                axiosInstance.defaults.headers['Authorization'] =
+                    'JWT ' + localStorage.getItem('access_token');
                 history.push('/');
-                window.location.reload();
+                console.log(res);
+                console.log(res.data);
             });
-    };
-
-    const responseFacebook = async (response) => {
-        FacebookLogin(response.accessToken);
     };
 
     const classes = useStyles();
@@ -126,11 +120,6 @@ export default function SignIn() {
                     >
                         Sign In
                     </Button>
-                    <FbLogin
-                        appId="424762231818988"
-                        fields="name,email,picture"
-                        callback={responseFacebook}
-                    />
                     <Grid container>
                         <Grid item xs>
                             <Link href="#" variant="body2">
