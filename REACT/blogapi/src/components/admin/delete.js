@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import jwtDecode from "jwt-decode";
 import axiosInstance from '../../axios';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, } from 'react-router-dom';
 //MaterialUI
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
@@ -9,6 +9,10 @@ import Box from '@material-ui/core/Box';
 export default function Create() {
     const history = useHistory();
     const { id } = useParams();
+    // 작성자 정보 가져오기
+    const token = localStorage.getItem("access_token")
+    const decode = jwtDecode(token)
+    const author = decode.user_id
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -23,10 +27,7 @@ export default function Create() {
                 }
             })
             .then(function () {
-                history.push({
-                    pathname: '/admin/',
-                });
-                window.location.reload();
+                history.push('/');
             });
     };
 
