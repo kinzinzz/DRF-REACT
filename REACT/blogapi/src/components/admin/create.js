@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import jwtDecode from "jwt-decode";
 import axiosInstance from '../../axios';
 import { useHistory } from 'react-router-dom';
 //MaterialUI
@@ -51,7 +52,9 @@ export default function Create() {
             .replace(/^-+/, '') // Trim - from start of text
             .replace(/-+$/, ''); // Trim - from end of text
     }
-    //
+    // 작성자 정보 가져오기
+    const token = localStorage.getItem("access_token")
+    const decode = jwtDecode(token)
 
     const history = useHistory();
     const initialFormData = Object.freeze({
@@ -90,7 +93,7 @@ export default function Create() {
         let formData = new FormData();
         formData.append('title', postData.title);
         formData.append('slug', postData.slug);
-        formData.append('author', 1);
+        formData.append('author', decode.user_id);
         formData.append('excerpt', postData.excerpt);
         formData.append('content', postData.content);
         formData.append('image', postimage.image[0]);
@@ -100,22 +103,6 @@ export default function Create() {
         });
         window.location.reload();
     };
-
-    // const config = { headers: { 'Content-Type': 'multipart/form-data' } };
-    // const URL = 'http://127.0.0.1:8000/api/admin/creats/';
-    // let formData = new FormData();
-    // formData.append('title', postData.title);
-    // formData.append('slug', postData.slug);
-    // formData.append('author', 1);
-    // formData.append('excerpt', postData.excerpt);
-    // formData.append('content', postData.content);
-    // formData.append('image', postimage.image[0]);
-    // axios
-    // 	.post(URL, formData, config)
-    // 	.then((res) => {
-    // 		console.log(res.data);
-    // 	})
-    // 	.catch((err) => console.log(err));
 
     const classes = useStyles();
 
@@ -152,7 +139,7 @@ export default function Create() {
                                 autoComplete="excerpt"
                                 onChange={handleChange}
                                 multiline
-                                rows={4}
+                                minRows={4}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -179,7 +166,7 @@ export default function Create() {
                                 autoComplete="content"
                                 onChange={handleChange}
                                 multiline
-                                rows={4}
+                                minRows={4}
                             />
                         </Grid>
                         <input

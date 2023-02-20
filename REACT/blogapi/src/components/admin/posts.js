@@ -43,7 +43,38 @@ const useStyles = makeStyles((theme) => ({
 const Posts = (props) => {
     const { posts } = props;
     const classes = useStyles();
-    if (!posts || posts.length === 0) return <p>Can not find any posts, sorry</p>;
+    if (!posts || posts.length === 0)
+        return (<React.Fragment>
+            <Container maxWidth="md" component="main">
+                <Paper className={classes.root}>
+                    <TableContainer className={classes.container}>
+                        <Table stickyHeader aria-label="sticky table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Id</TableCell>
+                                    <TableCell align="left">Category</TableCell>
+                                    <TableCell align="left">Title</TableCell>
+                                    <TableCell align="left">Action</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell colSpan={4} align="right">
+                                        <Button
+                                            href={'/admin/create'}
+                                            variant="contained"
+                                            color="primary"
+                                        >
+                                            New Post
+                                        </Button>
+                                    </TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Paper>
+            </Container>
+        </React.Fragment>);
     return (
         <React.Fragment>
             <Container maxWidth="md" component="main">

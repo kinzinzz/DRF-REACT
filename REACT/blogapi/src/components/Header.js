@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -23,7 +23,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Header() {
-    const classes = useStyles();
+
+    // 로그인, 로그아웃 구분
+    const [auth, setAuth] = useState(false)
+    useEffect(() => {
+        if (localStorage.getItem('access_token') !== null) {
+            setAuth(true);
+        }
+    }, [auth])
+
+    // 검색 기능
     let history = useHistory();
     const [data, setData] = useState({ search: '' });
 
@@ -34,6 +43,8 @@ function Header() {
         });
         window.location.reload();
     };
+
+    const classes = useStyles();
 
     return (
         <React.Fragment>
@@ -66,41 +77,61 @@ function Header() {
                         onChange={(newValue) => setData({ search: newValue })}
                         onRequestSearch={() => goSearch(data.search)}
                     />
-
-                    <nav>
-                        <Link
-                            color="textPrimary"
+                    {auth ? <></> :
+                        < nav >
+                            <Link
+                                color="textPrimary"
+                                href="#"
+                                className={classes.link}
+                                component={NavLink}
+                                to="/register"
+                            >
+                                Sign up
+                            </Link>
+                        </nav>
+                    }
+                    {auth ?
+                        <Button
                             href="#"
+                            color="primary"
+                            variant="outlined"
                             className={classes.link}
                             component={NavLink}
-                            to="/register"
+                            to="/logout"
                         >
-                            Register
-                        </Link>
-                    </nav>
-                    <Button
-                        href="#"
-                        color="primary"
-                        variant="outlined"
-                        className={classes.link}
-                        component={NavLink}
-                        to="/login"
-                    >
-                        Login
-                    </Button>
-                    <Button
-                        href="#"
-                        color="primary"
-                        variant="outlined"
-                        className={classes.link}
-                        component={NavLink}
-                        to="/logout"
-                    >
-                        Logout
-                    </Button>
+                            Logout
+                        </Button>
+
+                        :
+
+                        <Button
+                            href="#"
+                            color="primary"
+                            variant="outlined"
+                            className={classes.link}
+                            component={NavLink}
+                            to="/login"
+                        >
+                            Login
+                        </Button>
+                    }
+                    {auth ?
+                        <Button
+                            href="#"
+                            color="primary"
+                            variant="outlined"
+                            className={classes.link}
+                            component={NavLink}
+                            to="/admin"
+                        >
+                            My Post
+                        </Button>
+                        :
+                        <></>
+                    }
                 </Toolbar>
             </AppBar>
-        </React.Fragment>
+        </React.Fragment >
     );
 }
 

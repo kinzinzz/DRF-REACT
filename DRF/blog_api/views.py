@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
+from .permissions import IsAuthorOrReadOnly
 
 # Display Posts
 
@@ -13,6 +14,14 @@ class PostList(generics.ListAPIView):
 
     serializer_class = PostSerializer
     queryset = Post.objects.all()
+    
+class AuthorPostlList(generics.ListCreateAPIView):
+    
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = PostSerializer
+    
+    def get_queryset(self):
+        return Post.objects.filter(author__id=self.kwargs["pk"])
 
 
 class PostDetail(generics.RetrieveAPIView):
@@ -48,19 +57,19 @@ class CreatePost(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class PostDetail(generics.RetrieveAPIView):
-    permission_classes = [permissions.IsAuthenticated]
+class AdminPostDetail(generics.RetrieveAPIView):
+    permission_classes = [IsAuthorOrReadOnly]
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
 
 class EditPost(generics.UpdateAPIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthorOrReadOnly]
     serializer_class = PostSerializer
     queryset = Post.objects.all()
 
 
 class DeletePost(generics.RetrieveDestroyAPIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthorOrReadOnly]
     serializer_class = PostSerializer
     queryset = Post.objects.all()

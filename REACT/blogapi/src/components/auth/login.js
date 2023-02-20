@@ -68,6 +68,7 @@ export default function SignIn() {
                 history.push('/');
                 console.log(res);
                 console.log(res.data);
+                window.location.replace('/')
             });
     };
 

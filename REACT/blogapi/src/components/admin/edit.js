@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import jwtDecode from "jwt-decode";
 import axiosInstance from '../../axios';
 import { useHistory, useParams } from 'react-router-dom';
 //MaterialUI
@@ -37,6 +38,10 @@ export default function Create() {
         content: '',
     });
 
+    // 작성자 정보 가져오기
+    const token = localStorage.getItem("access_token")
+    const decode = jwtDecode(token)
+
     const [formData, updateFormData] = useState(initialFormData);
 
     useEffect(() => {
@@ -67,7 +72,7 @@ export default function Create() {
         axiosInstance.put(`admin/edit/` + id + '/', {
             title: formData.title,
             slug: formData.slug,
-            author: 1,
+            author: decode.user_id,
             excerpt: formData.excerpt,
             content: formData.content,
         });
@@ -113,7 +118,7 @@ export default function Create() {
                                 value={formData.excerpt}
                                 onChange={handleChange}
                                 multiline
-                                rows={8}
+                                minRows={8}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -141,7 +146,7 @@ export default function Create() {
                                 value={formData.content}
                                 onChange={handleChange}
                                 multiline
-                                rows={8}
+                                minRows={8}
                             />
                         </Grid>
                     </Grid>

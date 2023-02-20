@@ -29,6 +29,7 @@ export default function Post() {
             setData({
                 posts: res.data,
             });
+            console.log(res);
             console.log(res.data);
         });
     }, [setData]);
