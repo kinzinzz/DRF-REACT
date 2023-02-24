@@ -27,7 +27,10 @@ export default function Create() {
                 }
             })
             .then(function () {
-                history.push('/');
+                history.push({
+                    pathname: `/admin/authorlist` + author
+                });
+                window.location.reload();
             });
     };
 

@@ -10,6 +10,10 @@
   - OAuth2 용 패키지를 포함한 인증 정책: JWT
   - 코드가 간결해진다: Class-based Views
 
+- ERD
+
+  ![DRF](README.assets/DRF.png)
+
 - 요구 사항
 
   | 구분   | 서비스      | 필요기능                               |
@@ -39,5 +43,5 @@
     - coreapi : 프로젝트 스키마 문서
     - coverage : 서비스 테스트
   - frontend
-    - material-ui/core:  UI Framework
-
+    - material-ui/core:  UI library
+    - jwt-decode : jwt decdeo library
