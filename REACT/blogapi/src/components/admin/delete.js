@@ -17,7 +17,10 @@ export default function Create() {
     const handleSubmit = (e) => {
         e.preventDefault();
         axiosInstance
-            .delete('admin/delete/' + id)
+            .delete('admin/delete/' + id).then((res) => {
+                history.push('/');
+                window.location.reload();
+            })
             .catch(function (error) {
                 if (error.response) {
                     console.log(error.response.data);
@@ -26,12 +29,7 @@ export default function Create() {
 
                 }
             })
-            .then(function () {
-                history.push({
-                    pathname: `/admin/authorlist` + author
-                });
-                window.location.reload();
-            });
+            ;
     };
 
     return (

@@ -97,11 +97,14 @@ export default function Create() {
         formData.append('excerpt', postData.excerpt);
         formData.append('content', postData.content);
         formData.append('image', postimage.image[0]);
-        axiosInstance.post(`admin/create/`, formData);
-        history.push({
-            pathname: '/admin/',
-        });
-        window.location.reload();
+        axiosInstance.post(`admin/create/`, formData).then((res) => {
+            console.log(res.data)
+            history.push({
+                pathname: '/admin/',
+            });
+            window.location.reload();
+        }
+        )
     };
 
     const classes = useStyles();

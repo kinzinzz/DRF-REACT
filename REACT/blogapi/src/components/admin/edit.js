@@ -75,11 +75,13 @@ export default function Create() {
             author: decode.user_id,
             excerpt: formData.excerpt,
             content: formData.content,
+        }).then((res) => {
+            history.push({
+                pathname: '/admin/',
+            });
+            window.location.reload();
         });
-        history.push({
-            pathname: '/admin/',
-        });
-        window.location.reload();
+
     };
 
     const classes = useStyles();

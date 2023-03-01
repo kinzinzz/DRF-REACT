@@ -1,5 +1,7 @@
 ## DRF-REACT 
 
+![test](README.assets/test.gif)
+
 - backend : Django rest framework(DRF)
 
 - frontend : REACT@16.13.1
