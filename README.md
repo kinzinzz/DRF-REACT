@@ -15,6 +15,9 @@
 - ERD
 
   ![DRF](README.assets/DRF.png)
+  
+- API Docs
+  <img src="https://user-images.githubusercontent.com/107156650/230767991-f5f72618-1e68-4297-9ae2-b30a5bdd1afa.PNG">
 
 - 요구 사항
 
